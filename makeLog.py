@@ -8,12 +8,23 @@ import textwrap
 import re
 
 def main(args):
+    print args.date
     print 'Directory input : \n\t', args.dirInput
-    print 'Log creation date : \n\t', args.date
-    print 'Directory location : \n\t', args.loc
     print 'Directory name : \n\t', args.dirName
     print 'Log created / edited by : \n\t', args.user
     print 'Note by user : \n\t', args.extra
+
+    
+    # if there is log
+    if os.path.isfile(os.path.join(args.dirInput,'log.txt')):
+        print 'there is log'
+    else:
+        print 'there is no log'
+
+
+
+    
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -36,11 +47,6 @@ if __name__ == '__main__':
         default=os.path.basename(os.getcwd()))
 
     parser.add_argument(
-        '-l', '--loc',
-        help='Saves directory location to log',
-        default=os.getcwd())
-
-    parser.add_argument(
         '-u', '--user',
         action='store_true',
         help='Saves user name to the log',
@@ -61,6 +67,5 @@ if __name__ == '__main__':
 
     if args.dirInput != os.getcwd():
         args.dirName = os.path.basename(args.dirInput)
-        args.loc = os.path.abspath(args.dirInput)
 
     main(args)
