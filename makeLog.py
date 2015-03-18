@@ -60,13 +60,11 @@ if __name__ == '__main__':
 
     parser.add_argument(
         '-u', '--user',
-        action='store_true',
         help='Saves user name to the log',
         default=getpass.getuser())
 
     parser.add_argument(
         '-d', '--date',
-        action='store_true',
         help='Saves the date of log creation to the log',
         default=datetime.date.today())
 
