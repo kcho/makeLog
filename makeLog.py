@@ -6,18 +6,27 @@ import argparse
 import datetime
 import textwrap
 import re
+import socket
 
 def main(args):
+    args.dirInput = os.path.abspath(args.dirInput)
 
-    content = '{date}   by {user}\n\
+    if socket.gethostname().find('.')>=0:
+        hostname=socket.gethostname()
+    else:
+        hostname=socket.gethostbyaddr(socket.gethostname())[0]
+
+    content = '{date} by {user}\n\
+{hostname}\n\
 {line}\n\
-{dirInput}\n\
+{dirLoc}\n\
 {basename}\n\
-{extra}'.format(date = args.date,
+{extra}\n'.format(date = args.date,
                 user = args.user,
-                line = '='*25,
-                dirInput = args.dirInput,
-                basename = args.dirName,
+                line = '='*60,
+                dirLoc = os.path.dirname(args.dirInput),
+                basename = os.path.basename(args.dirInput),
+                hostname = hostname,
                 extra = args.extra)
 
     #print content
@@ -25,7 +34,7 @@ def main(args):
     # if there is log
     logLoc = os.path.join(args.dirInput,'log.txt')
     if os.path.isfile(logLoc):
-        print 'There is log... appending \n{0}'.format(content)
+        print 'There is log... appending\n'
         with open(logLoc,'a') as logFile:
             logFile.write(content)
     else:
@@ -33,11 +42,6 @@ def main(args):
         print content
         with open(logLoc,'w') as logFile:
             logFile.write(content)
-
-
-
-    
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -53,16 +57,6 @@ if __name__ == '__main__':
         '-i', '--dirInput',
         help='Saves current directory name to log',
         default=os.getcwd())
-
-    parser.add_argument(
-        '-l', '--dirLocation',
-        help='Saves current directory name to log',
-        default=os.path.dirname(os.getcwd()))
-
-    parser.add_argument(
-        '-n', '--dirName',
-        help='Saves current directory name to log',
-        default=os.path.basename(os.getcwd()))
 
     parser.add_argument(
         '-u', '--user',
@@ -83,7 +77,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if args.dirInput != os.path.dirname(os.getcwd()):
-        args.dirName = os.path.basename(args.dirInput)
+    if args.extra == None:
+        args.extra = ''
 
     main(args)
