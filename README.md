@@ -2,29 +2,29 @@
 
 ----------
 
-# 사용법
-##1. 로그만들 폴더로 들어간다.
-##2. 아래 커맨드 입력
+# How to use
+1. **cd to the location where you want to create a log.**
+2. **Run script**
 ```
 makeLog.py 
 ```
-##3. log.txt 생긴다.
-##4. 끝
+3. **Log created**
+4. **The End**
 
 
-# Argparse 사용법 1
-##1. 로그만들 폴더로 들어간다.
-##2. 아래 커맨드 입력
+# How to use Argparse options 1
+1. **cd to the location where you want to create a log.**
+2. **Run script**
 ```
-makeLog.py -e '이자료 쓰레기다'
+makeLog.py -e 'This data is s*it'
 ```
-##3. log.txt 생긴다
-##4. 끝
+3. **Log created**
+4. **The End**
 
-# Argparse 사용법 2
-##1. 아래 커맨드 입력
+# How to use Argparse options 2
+1. **Run script as below**
 ```
-makeLog.py -e '이자료 쓰레기다' -i /Users/kevin/data/subj1
+makeLog.py -e 'This data is s*it' -i /Users/kevin/data/subj1
 ```
-##2. /Users/kevin/data/subj1/log.txt 생긴다
-##3. 끝
+2. **Log created in /Users/kevin/data/subj1/log.txt**
+3. **The End**
