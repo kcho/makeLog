@@ -8,18 +8,31 @@ import textwrap
 import re
 
 def main(args):
-    print args.date
-    print 'Directory input : \n\t', args.dirInput
-    print 'Directory name : \n\t', args.dirName
-    print 'Log created / edited by : \n\t', args.user
-    print 'Note by user : \n\t', args.extra
 
+    content = '{date}   by {user}\n\
+{line}\n\
+{dirInput}\n\
+{basename}\n\
+{extra}'.format(date = args.date,
+                user = args.user,
+                line = '='*25,
+                dirInput = args.dirInput,
+                basename = args.dirName,
+                extra = args.extra)
+
+    #print content
     
     # if there is log
-    if os.path.isfile(os.path.join(args.dirInput,'log.txt')):
-        print 'there is log'
+    logLoc = os.path.join(args.dirInput,'log.txt')
+    if os.path.isfile(logLoc):
+        print 'There is log... appending \n{0}'.format(content)
+        with open(logLoc,'a') as logFile:
+            logFile.write(content)
     else:
-        print 'there is no log'
+        print 'There is no log... creating log.txt'
+        print content
+        with open(logLoc,'w') as logFile:
+            logFile.write(content)
 
 
 
@@ -40,6 +53,11 @@ if __name__ == '__main__':
         '-i', '--dirInput',
         help='Saves current directory name to log',
         default=os.getcwd())
+
+    parser.add_argument(
+        '-l', '--dirLocation',
+        help='Saves current directory name to log',
+        default=os.path.dirname(os.getcwd()))
 
     parser.add_argument(
         '-n', '--dirName',
@@ -65,7 +83,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if args.dirInput != os.getcwd():
+    if args.dirInput != os.path.dirname(os.getcwd()):
         args.dirName = os.path.basename(args.dirInput)
 
     main(args)
